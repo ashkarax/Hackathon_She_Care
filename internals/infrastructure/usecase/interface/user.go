@@ -5,7 +5,7 @@ import (
 	responsemodel "shecare/internals/models/resModels"
 )
 
-type IUserUseCase interface{
-	UserSignup( *requestmodel.UserSignup) (*responsemodel.UserSignup, error)
-	UserLogin( requestmodel.UserLogin) (responsemodel.UserSignup, error)
+type IUserUseCase interface {
+	UserSignup(*requestmodel.UserSignup) (*responsemodel.UserSignup, error)
+	UserLogin(requestmodel.UserLogin) (responsemodel.UserSignup, error)
 }

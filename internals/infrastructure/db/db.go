@@ -6,6 +6,7 @@ import (
 	"shecare/internals/config"
 	"shecare/internals/domain"
 	helper "shecare/pkg"
+	"time"
 
 	_ "github.com/lib/pq"
 	"gorm.io/driver/postgres"
@@ -13,7 +14,7 @@ import (
 )
 
 func InitDB(config *config.Config) (*gorm.DB, error) {
-	connectionString := "user=postgres password=123 host=localhost"
+	connectionString := "user=postgres password=1234 host=localhost"
 	sql, err := sql.Open("postgres", connectionString)
 	if err != nil {
 		return nil, err
@@ -34,12 +35,24 @@ func InitDB(config *config.Config) (*gorm.DB, error) {
 		}
 	}
 
-	DB, err := gorm.Open(postgres.Open(config.DBUrl), &gorm.Config{})
+	DB, err := gorm.Open(postgres.Open(config.DBUrl), &gorm.Config{
+		NowFunc: func() time.Time {
+			return time.Now().UTC() // Set the timezone to UTC
+		},
+	})
 	if err != nil {
 		return nil, err
 	}
 
+	err = DB.AutoMigrate(domain.Admin{})
+	if err != nil {
+		return nil, err
+	}
 	err = DB.AutoMigrate(domain.Users{})
+	if err != nil {
+		return nil, err
+	}
+	err = DB.AutoMigrate(domain.Posts{})
 	if err != nil {
 		return nil, err
 	}

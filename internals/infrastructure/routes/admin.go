@@ -6,6 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func AdminRoutes(engin *gin.RouterGroup, adminhandler handler.AdminHandler) {
+func AdminRoutes(engin *gin.RouterGroup, adminhandler *handler.AdminHandler) {
 	engin.POST("", adminhandler.AdminLogin)
 }

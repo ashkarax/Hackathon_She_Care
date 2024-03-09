@@ -3,6 +3,7 @@ package handler
 import (
 	"net/http"
 	"shecare/internals/config"
+	interfaceusecase "shecare/internals/infrastructure/usecase/interface"
 	requestmodel "shecare/internals/models/reqModels"
 	helper "shecare/pkg"
 
@@ -10,12 +11,12 @@ import (
 )
 
 type UserHandler struct {
-	userUseCase handler.UserHandler
+	userUseCase interfaceusecase.IUserUseCase
 	config      *config.Config
 }
 
-func NewUserHandler(config config.Config) *UserHandler {
-	return &UserHandler{config: &config}
+func NewUserHandler(userUseCase interfaceusecase.IUserUseCase, config config.Config) *UserHandler {
+	return &UserHandler{userUseCase: userUseCase, config: &config}
 }
 
 func (u *UserHandler) UserSignup(c *gin.Context) {

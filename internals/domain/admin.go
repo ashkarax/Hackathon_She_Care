@@ -2,7 +2,7 @@ package domain
 
 import "gorm.io/gorm"
 
-type Users struct {
+type Admin struct {
 	gorm.Model
 	Name     string
 	Password string
